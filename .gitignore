@@ -1,0 +1,12 @@
+# IDE
+.idea/
+
+# Frontend
+
+# Backend
+.bstreamenv/
+staticfiles/
+
+# Docker
+.env
+.env.db

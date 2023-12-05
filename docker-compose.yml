@@ -1,0 +1,46 @@
+version: '3.3'
+
+services:
+
+  db:
+    image: postgres:16-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env.db
+
+  backend:
+    build: ./backend
+    command: gunicorn bookstream.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - static_volume:/backend/staticfiles
+      - ./backend:/backend
+    expose:
+      - 8000
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "8000:80"
+    volumes:
+      - static_volume:/backend/staticfiles
+    depends_on:
+      - backend
+
+#  frontend:
+#    build: ./frontend
+#    command: npm start
+#    volumes:
+#      - ./frontend:/frontend
+#    ports:
+#      - "3000:3000"
+#    depends_on:
+#      - backend
+
+volumes:
+  postgres_data:
+  static_volume:
