@@ -2,6 +2,8 @@
 .idea/
 
 # Frontend
+package-lock.json
+node_modules/
 
 # Backend
 .bstreamenv/
